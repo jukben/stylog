@@ -1,0 +1,9 @@
+{
+  "name": "console-log-styled",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.0.0"
+  }
+}
