@@ -134,4 +134,30 @@ a`
         lex: `{s styled}`
       }
     ]));
+
+  it("single line with style object", () =>
+    expect([...scanner(`{s styled}`)]).toEqual([
+      {
+        type: "STYLE_BLOCK_START"
+      },
+      {
+        type: "STYLE_BLOCK_ID",
+        lex: `s`
+      },
+      {
+        type: "STYLE_BLOCK_TEXT",
+        lex: `styled`
+      },
+      {
+        type: "STYLE_BLOCK_END"
+      }
+    ]));
+
+  it("single line with }", () =>
+    expect([...scanner(`styled}`)]).toEqual([
+      {
+        type: "TEXT",
+        lex: "styled}"
+      }
+    ]));
 });
