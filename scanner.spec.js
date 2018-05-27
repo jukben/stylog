@@ -1,4 +1,4 @@
-const scanner = require("./index");
+const scanner = require("./scanner");
 
 describe("scanner", () => {
   it("is and array", () =>
@@ -140,4 +140,9 @@ a}`)
         lex: "styled}"
       }
     ]));
+
+  it("single line with styled non-terminated object", () =>
+    expect(() => [...scanner(`this is non-terminated {s object`)]).toThrow(
+      /end/
+    ));
 });
