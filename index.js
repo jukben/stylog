@@ -102,6 +102,9 @@ function* scanner(input) {
         if (token.match(/\s/)) {
           state = STATE.STYLE_BLOCK_TEXT;
 
+          if (lex === "") {
+            throw new SyntaxError("Unexpected token: label cannot be omitted.");
+          }
           yield { type: TYPE.STYLE_BLOCK_ID, lex };
 
           lex = "";
