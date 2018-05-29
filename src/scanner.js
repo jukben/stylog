@@ -129,4 +129,4 @@ function* scanner(input) {
   }
 }
 
-module.exports = scanner;
+export default scanner;

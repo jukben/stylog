@@ -1,4 +1,4 @@
-const scanner = require("./scanner");
+import scanner from "../scanner";
 
 describe("scanner", () => {
   it("is and array", () =>

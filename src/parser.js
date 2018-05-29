@@ -1,4 +1,4 @@
-const scanner = require("./scanner");
+import scanner from "./scanner";
 
 const TYPE2 = {
   TEXT: "TEXT",
@@ -144,4 +144,4 @@ function Text() {
   throw new SyntaxError(`Unexpected token: ${type}`);
 }
 
-module.exports = parser;
+export default parser;

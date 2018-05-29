@@ -1,4 +1,4 @@
-const parser = require("./parser");
+import parser from "../parser";
 
 describe("parser", () => {
   it("text", () => {
