@@ -93,11 +93,31 @@ d enhanced}`)
     ]));
 
   it("multiline text with style object without id", () =>
-    expect(() => [
+    expect([
       ...scanner(`text{
 d enhanced
 a}`)
-    ]).toThrow(/omitted/));
+    ]).toEqual([
+      {
+        type: "TEXT",
+        lex: `text`
+      },
+      {
+        type: "STYLE_BLOCK_START"
+      },
+      {
+        type: "STYLE_BLOCK_ID",
+        lex: ``
+      },
+      {
+        type: "STYLE_BLOCK_TEXT",
+        lex: `d enhanced
+a`
+      },
+      {
+        type: "STYLE_BLOCK_END"
+      }
+    ]));
 
   it("single line with escaped style object", () =>
     expect([...scanner(`this is not a \\{style object}`)]).toEqual([
@@ -142,7 +162,17 @@ a}`)
     ]));
 
   it("single line with styled non-terminated object", () =>
-    expect(() => [...scanner(`this is non-terminated {s object`)]).toThrow(
-      /end/
-    ));
+    expect([...scanner(`non terminated {style object`)]).toEqual([
+      {
+        type: "TEXT",
+        lex: "non terminated "
+      },
+      {
+        type: "STYLE_BLOCK_START"
+      },
+      {
+        type: "STYLE_BLOCK_ID",
+        lex: "style"
+      }
+    ]));
 });

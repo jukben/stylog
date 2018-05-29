@@ -35,10 +35,6 @@ function* scanner(input) {
     if (token === undefined) {
       if (state === STATE.TEXT) {
         yield { type: "TEXT", lex };
-      } else if (state === STATE.STYLE_BLOCK_TEXT) {
-        throw new SyntaxError(
-          "Unexpected token: missing end of the style object"
-        );
       }
 
       return { type: TYPE.END_OF_FILE };
@@ -105,10 +101,6 @@ function* scanner(input) {
 
         if (token.match(/\s/)) {
           state = STATE.STYLE_BLOCK_TEXT;
-
-          if (lex === "") {
-            throw new SyntaxError("Unexpected token: label cannot be omitted");
-          }
 
           yield { type: TYPE.STYLE_BLOCK_ID, lex };
 
