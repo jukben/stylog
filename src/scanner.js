@@ -15,7 +15,7 @@ const STATE = {
   STYLE_BLOCK_END: Symbol("STYLE_BLOCK_END")
 };
 
-const TYPE = {
+export const TYPE = {
   END_OF_FILE: "END_OF_FILE",
   STYLE_BLOCK_START: "STYLE_BLOCK_START",
   STYLE_BLOCK_ID: "STYLE_BLOCK_ID",
@@ -33,7 +33,7 @@ function* scanner(input) {
     const token = input[i++];
 
     if (token === undefined) {
-      if (state === STATE.TEXT) {
+      if (state === STATE.TEXT && lex) {
         yield { type: "TEXT", lex };
       }
 

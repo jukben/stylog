@@ -37,4 +37,22 @@ describe("parser", () => {
       }
     ]);
   });
+
+  it("styled advanced", () => {
+    expect(parser("text {image} swag")).toEqual([
+      {
+        type: "TEXT",
+        value: "text "
+      },
+      {
+        type: "STYLED",
+        id: "image",
+        value: null
+      },
+      {
+        type: "TEXT",
+        value: " swag"
+      }
+    ]);
+  });
 });

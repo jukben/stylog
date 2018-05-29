@@ -1,17 +1,8 @@
-import scanner from "./scanner";
+import scanner, { TYPE as SCANNER_TYPE } from "./scanner";
 
-const TYPE2 = {
+export const TYPE = {
   TEXT: "TEXT",
   STYLED: "STYLED"
-};
-
-const TYPE = {
-  END_OF_FILE: "END_OF_FILE",
-  STYLE_BLOCK_START: "STYLE_BLOCK_START",
-  STYLE_BLOCK_ID: "STYLE_BLOCK_ID",
-  STYLE_BLOCK_TEXT: "STYLE_BLOCK_TEXT",
-  STYLE_BLOCK_END: "STYLE_BLOCK_END",
-  TEXT: "TEXT"
 };
 
 /**
@@ -27,14 +18,14 @@ let tokenGenerator = null;
 
 function createText(value) {
   stack.push({
-    type: TYPE2.TEXT,
+    type: TYPE.TEXT,
     value
   });
 }
 
 function createStyled({ id, value = null }) {
   stack.push({
-    type: TYPE2.STYLED,
+    type: TYPE.STYLED,
     value,
     id
   });
@@ -52,10 +43,14 @@ function Init() {
     value: { type, lex }
   } = tokenGenerator.next();
 
-  if (type === TYPE.TEXT) {
+  if (type === SCANNER_TYPE.TEXT) {
     createText(lex);
 
     return Text();
+  }
+
+  if (type === SCANNER_TYPE.STYLE_BLOCK_START) {
+    return StyledID();
   }
 
   throw new SyntaxError(`Unexpected token: ${type}`);
@@ -67,7 +62,7 @@ function StyledID() {
     done
   } = tokenGenerator.next();
 
-  if (type === TYPE.STYLE_BLOCK_ID) {
+  if (type === SCANNER_TYPE.STYLE_BLOCK_ID) {
     if (!id) {
       throw new SyntaxError(
         `Unexpected token: ${type}. Token has to have lex.`
@@ -88,14 +83,14 @@ function StyledText(styledObject) {
     done
   } = tokenGenerator.next();
 
-  if (type === TYPE.STYLE_BLOCK_TEXT) {
+  if (type === SCANNER_TYPE.STYLE_BLOCK_TEXT) {
     return StyledEnd({
       value,
       ...styledObject
     });
   }
 
-  if (type === TYPE.STYLE_BLOCK_END) {
+  if (type === SCANNER_TYPE.STYLE_BLOCK_END) {
     createStyled({
       ...styledObject
     });
@@ -111,12 +106,10 @@ function StyledEnd(styledObject) {
     value: { type, lex },
     done
   } = tokenGenerator.next();
-
-  if (type === TYPE.STYLE_BLOCK_END) {
+  if (type === SCANNER_TYPE.STYLE_BLOCK_END) {
     createStyled({
       ...styledObject
     });
-
     return Text();
   }
 
@@ -129,15 +122,17 @@ function Text() {
     done
   } = tokenGenerator.next();
 
-  if (type === TYPE.END_OF_FILE) {
+  if (type === SCANNER_TYPE.END_OF_FILE) {
     return stack;
   }
 
-  if (type === TYPE.STYLE_BLOCK_START) {
+  if (type === SCANNER_TYPE.STYLE_BLOCK_START) {
     return StyledID();
   }
 
-  if (type === TYPE.TEXT) {
+  if (type === SCANNER_TYPE.TEXT) {
+    createText(lex);
+
     return Text();
   }
 

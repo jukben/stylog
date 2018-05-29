@@ -175,4 +175,34 @@ a`
         lex: "style"
       }
     ]));
+
+  it("single line with styled non-terminated object", () =>
+    expect([
+      ...scanner(`text {styled text}
+swag`)
+    ]).toEqual([
+      {
+        type: "TEXT",
+        lex: "text "
+      },
+      {
+        type: "STYLE_BLOCK_START"
+      },
+      {
+        type: "STYLE_BLOCK_ID",
+        lex: "styled"
+      },
+      {
+        type: "STYLE_BLOCK_TEXT",
+        lex: `text`
+      },
+      {
+        type: "STYLE_BLOCK_END"
+      },
+      {
+        type: "TEXT",
+        lex: `
+swag`
+      }
+    ]));
 });
