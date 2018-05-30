@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the document</title>
+    <style>
+        .welcome {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .combo {
+            display: flex;
+            align-items: center;
+        }
+
+        .keycap {
+            width: 20px;
+            white-space: nowrap;
+            border: 1px solid #aaa;
+            border-style: outset;
+            border-radius: 4px;
+            padding: 0px 3px 1px 3px;
+            margin: 10px;
+            padding: 5px;
+            background: #fbfbfb;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="welcome">
+        <div class="combo">
+            <div class="keycap">⌥</div>
+            +
+            <div class="keycap">⌘</div>
+            +
+            <div class="keycap">J</div>
+        </div>
+    </div>
+</body>
+
+<script src="../node_modules/babel-polyfill/browser.js"></script>
+<script src="../dist/console-styled.umd.min.js"></script>
+
+<script>
+    consoleStyled(`{big Nicely styled text!} 
+and this is just plain.
+
+{image [COMPONENT]} {red This is just an example}`, {
+            big: {
+                fontSize: '25px',
+                border: '1px solid black',
+                padding: '10px'
+            },
+            image: {
+                display: "block !important",
+                color: "gray",
+                fontSize: "10px",
+                background: `url("https://vignette.wikia.nocookie.net/casshan/images/d/dc/Warn.png/revision/latest?cb=20120614181856")`,
+                backgroundSize: "15px 15px",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "left",
+                paddingLeft: '15px',
+            },
+            red: {
+                color: "red",
+                textDecoration: 'underline',
+            }
+        });
+</script>
+
+</html>

@@ -14,37 +14,45 @@ describe("styled", () => {
 
   it("styled", () => {
     styled(`text {styled text}`, { styled: { color: "red" } });
-    expect(styledConsole).toHaveBeenCalledWith("text %ctext", "color:red");
+    expect(styledConsole).toHaveBeenCalledWith(
+      "%ctext %ctext",
+      "",
+      "color:red"
+    );
   });
 
   it("styled advanced", () => {
     styled(
       `text {styled text}
-swag`,
+  swag`,
       { styled: { color: "red" } }
     );
     expect(styledConsole).toHaveBeenCalledWith(
-      `text %ctext
-swag`,
-      "color:red"
+      `%ctext %ctext%c
+  swag`,
+      "",
+      "color:red",
+      ""
     );
   });
 
   it("styled advanced multiple", () => {
     styled(
       `text {styled text}
-swag{underline double-swag}`,
+  swag{underline double-swag}`,
       { styled: { color: "red" }, underline: { textDecoration: "underline" } }
     );
     expect(styledConsole).toHaveBeenCalledWith(
-      `text %ctext
-swag%cdouble-swag`,
+      `%ctext %ctext%c
+  swag%cdouble-swag`,
+      "",
       "color:red",
+      "",
       "text-decoration:underline"
     );
   });
 
-  it("styled advanced multiple", () => {
+  it("styled advanced multiple without style object", () => {
     styled(
       `text {styled text}
 swag{underline double-swag}`
@@ -55,11 +63,34 @@ swagdouble-swag`
     );
   });
 
+  it("styled advanced multiple another", () => {
+    styled(
+      `{big Hello this is styled text}
+  and this is not`,
+      { big: { fontSize: "20px" } }
+    );
+    expect(styledConsole).toHaveBeenCalledWith(
+      `%cHello this is styled text%c
+  and this is not`,
+      "font-size:20px",
+      ""
+    );
+  });
+
+  it("styled advanced multiple", () => {
+    styled(`text and {image}`, { image: { fontSize: "20px" } });
+    expect(styledConsole).toHaveBeenCalledWith(
+      `%ctext and %c `,
+      "",
+      "font-size:20px"
+    );
+  });
+
   it("styled advanced without style object", () => {
     expect(() =>
       styled(
         `text {styled text}
-swag`,
+  swag`,
         {}
       )
     ).toThrow(/Style for "styled" d/);

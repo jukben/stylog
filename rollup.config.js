@@ -10,12 +10,7 @@ process.env.NODE_ENV = "production";
 const createConfig = ({ umd = false, output } = {}) => ({
   input: "src/index.js",
   output,
-  plugins: [
-    babel({ plugins: ["external-helpers"] }),
-    resolve(),
-    commonjs(),
-    umd && uglify()
-  ].filter(Boolean)
+  plugins: [resolve(), commonjs(), babel(), umd && uglify()].filter(Boolean)
 });
 
 export default [
@@ -30,7 +25,7 @@ export default [
     output: {
       file: pkg.unpkg,
       format: "umd",
-      name: "ReactTextareaAutocomplete"
+      name: "consoleStyled"
     }
   })
 ];

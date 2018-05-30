@@ -5,14 +5,6 @@ export const TYPE = {
   STYLED: "STYLED"
 };
 
-/**
-    * -> Text
-    * -> Styled
-    Text -> Text Styled
-    Styled -> StyledStart StyledID StyledText StyledEnd
-    Styled -> StyledStart StyledID StyledEnd
- */
-
 let stack = null;
 let tokenGenerator = null;
 

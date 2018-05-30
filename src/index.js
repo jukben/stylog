@@ -17,31 +17,25 @@ function styled(recipe, stylesDictionary = null) {
     (config, currentValue, currentIndex, array) => {
       const { type, value, id } = currentValue;
 
-      switch (type) {
-        case PARSER_TYPE.TEXT: {
-          config[0] += value;
-          break;
-        }
-        case PARSER_TYPE.STYLED: {
-          if (!stylesDictionary) {
-            config[0] += value;
-            break;
-          }
-
-          config[0] += `%c${value}`;
-
-          const style = stylesDictionary[id];
-          if (!style) {
-            throw new Error(`Style for "${id}" doesn't found`);
-          }
-
-          config[1].push(convertStyleObjectToString(style));
-          break;
-        }
-        default:
-          throw new Error("Unrecognized type");
+      if (!stylesDictionary) {
+        config[0] += value;
+        return config;
       }
 
+      config[0] += `%c${value || " "}`;
+
+      let style = "";
+
+      if (type === PARSER_TYPE.STYLED) {
+        const styleObject = stylesDictionary[id];
+        if (!styleObject) {
+          throw new Error(`Style for "${id}" doesn't found`);
+        }
+
+        style = convertStyleObjectToString(styleObject);
+      }
+
+      config[1].push(style);
       return config;
     },
     ["", []]

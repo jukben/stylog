@@ -1,19 +1,22 @@
 {
-  "name": "console-log-styled",
+  "name": "console-styled",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/console-log-styled.cjs.js",
-  "module": "dist/console-log-styled.es.js",
-  "unpkg": "dist/console-log-styled.umd.min.js",
+  "main": "dist/console-styled.cjs.js",
+  "module": "dist/console-styled.es.js",
+  "unpkg": "dist/console-styled.umd.min.js",
   "author": "Jakub Benes <jukben@gmail.com>",
   "files": ["dist"],
   "scripts": {
+    "prepublish": "yarn run build",
     "build": "rollup -c",
+    "dev": "yarn run build -w",
     "test": "jest"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
-    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.0.1",
     "rollup": "^0.59.4",
