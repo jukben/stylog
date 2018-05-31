@@ -1,10 +1,10 @@
 {
-  "name": "console-styled",
+  "name": "stylog",
   "version": "1.0.0",
   "license": "MIT",
-  "main": "dist/console-styled.cjs.js",
-  "module": "dist/console-styled.es.js",
-  "unpkg": "dist/console-styled.umd.min.js",
+  "main": "dist/stylog.cjs.js",
+  "module": "dist/stylog.es.js",
+  "unpkg": "dist/stylog.umd.min.js",
   "author": "Jakub Benes <jukben@gmail.com>",
   "files": ["dist"],
   "scripts": {
@@ -23,6 +23,7 @@
     "rollup-plugin-babel": "^3.0.4",
     "rollup-plugin-commonjs": "^9.1.3",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "rollup-plugin-uglify": "^4.0.0"
+    "rollup-plugin-terser": "^1.0.1",
+    "rollup-plugin-uglify-es": "^0.0.1"
   }
 }

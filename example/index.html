@@ -3,27 +3,63 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Title of the document</title>
+    <title>Stylog – Example</title>
     <style>
+        @import url('https://fonts.googleapis.com/css?family=Kanit:900');
+
+        html,
+        body {
+            margin: 0;
+        }
+
         .welcome {
             height: 100vh;
             width: 100vw;
             display: flex;
             align-items: center;
             justify-content: center;
+            overflow: hidden;
+        }
+
+        .welcome::before,
+        .welcome::after {
+            flex: 1;
+            content: 'OPEN';
+            font-family: 'Kanit', sans-serif;
+            letter-spacing: 20px;
+            font-weight: 900;
+            font-size: 150px;
+            color: #e0e0e080;
+            text-align: right;
+        }
+
+        .welcome::after {
+            content: 'CONSOLE!';
+            text-align: left;
+        }
+
+        .welcome.osx>.osx {
+            display: flex;
+        }
+
+        .welcome.win>.win {
+            display: flex;
         }
 
         .combo {
-            display: flex;
+            margin-left: 50px;
+            margin-right: 50px;
+            display: none;
             align-items: center;
         }
 
         .keycap {
-            width: 20px;
+            min-width: 25px;
             white-space: nowrap;
             border: 1px solid #aaa;
             border-style: outset;
             border-radius: 4px;
+            font-size: 20px;
             padding: 0px 3px 1px 3px;
             margin: 10px;
             padding: 5px;
@@ -34,28 +70,50 @@
     </style>
 </head>
 
-
-
 <body>
     <div class="welcome">
-        <div class="combo">
-            <div class="keycap">⌥</div>
-            +
-            <div class="keycap">⌘</div>
-            +
+        <div class="combo osx">
+            <div class="keycap">⌥</div>+
+            <div class="keycap">⌘</div>+
+            <div class="keycap">J</div>
+        </div>
+        <div class="combo win">
+            <div class="keycap">CTRL</div>+
+            <div class="keycap">SHIFT</div>+
             <div class="keycap">J</div>
         </div>
     </div>
 </body>
 
-<script src="../node_modules/babel-polyfill/browser.js"></script>
-<script src="../dist/console-styled.umd.min.js"></script>
+<script src="../dist/stylog.umd.min.js"></script>
 
 <script>
-    consoleStyled(`{big Nicely styled text!} 
-and this is just plain.
+    // be nice to the users, and guide them :)
+    document.querySelector('.welcome').classList.add(navigator.platform.match(/win/) ? 'win' : 'osx');
 
-{image [COMPONENT]} {red This is just an example}`, {
+    stylog(`{big Hello, everyone! This is nicely styled text!} 
+and non-styled text. Lovely, right? {bold *clap* *clap* *clap*} 
+
+{image [GANDALF]} {red Be aware! Wild Gandalf appears!}
+
+.
+.
+
+\\{gandalf}
+
+.
+.
+.
+
+not like this
+
+.
+.
+.
+{gandalf}`, {
+            bold: {
+                fontWeight: 'bold',
+            },
             big: {
                 fontSize: '25px',
                 border: '1px solid black',
@@ -74,7 +132,18 @@ and this is just plain.
             red: {
                 color: "red",
                 textDecoration: 'underline',
-            }
+            },
+            gandalf: {
+                display: "block !important",
+                color: "gray",
+                fontSize: '300px',
+                lineHeight: '150px',
+                display: "block !important",
+                background: `url("https://i.giphy.com/media/FyetIxXamPsfC/giphy.webp")`,
+                backgroundSize: "200px",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "left",
+            },
         });
 </script>
 
