@@ -16,6 +16,8 @@
 
 Stylog is a stylish way how to easily format [rich console.log messages](https://developers.google.com/web/tools/chrome-devtools/console/console-write#styling_console_output_with_css).
 
+_It's overengineered on purpose I just wanted to write it in the "old school" way and avoid RegExps. It has been written with a nostalgic memory to the Dragon Book 🐲_
+
 ## Install
 
 `yarn add stylog`
