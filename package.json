@@ -16,7 +16,6 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-polyfill": "^6.26.0",
     "babel-preset-env": "^1.7.0",
     "jest": "^23.0.1",
     "rollup": "^0.59.4",
