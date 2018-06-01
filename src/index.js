@@ -11,37 +11,49 @@ function convertStyleObjectToString(styleObject) {
     .join(";");
 }
 
-function styled(recipe, stylesDictionary = null) {
+function styled(recipe, stylesDictionary, mapperDictionary) {
   const parsedRecipe = parser(recipe);
-  const [text, styles] = parsedRecipe.reduce(
+  const [texts, styles] = parsedRecipe.reduce(
     (config, currentValue, currentIndex, array) => {
       const { type, value, id } = currentValue;
 
-      if (!stylesDictionary) {
-        config[0] += value;
+      let text = value || " ";
+      let style = "";
+
+      if (!stylesDictionary && !mapperDictionary) {
+        config[0] += text;
         return config;
       }
 
-      config[0] += `%c${value || " "}`;
-
-      let style = "";
-
       if (type === PARSER_TYPE.STYLED) {
-        const styleObject = stylesDictionary[id];
-        if (!styleObject) {
-          throw new Error(`Style for "${id}" doesn't found`);
+        const textMapper = mapperDictionary && mapperDictionary[id];
+        if (textMapper) {
+          try {
+            text = textMapper(value) || " ";
+          } catch (e) {
+            text = " ";
+            throw new Error(
+              `Text mapper for "${id}" has thrown an error: ${e.message}`
+            );
+          }
         }
 
-        style = convertStyleObjectToString(styleObject);
+        const styleObject = stylesDictionary && stylesDictionary[id];
+        if (styleObject) {
+          style = convertStyleObjectToString(styleObject);
+        }
       }
 
+      // concat text
+      config[0] += `%c${text}`;
+      // add new style
       config[1].push(style);
       return config;
     },
     ["", []]
   );
 
-  console.log(text, ...styles);
+  console.log(texts, ...styles);
 }
 
 export default styled;

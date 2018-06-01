@@ -173,6 +173,10 @@ a`
       {
         type: "STYLE_BLOCK_ID",
         lex: "style"
+      },
+      {
+        type: "STYLE_BLOCK_TEXT",
+        lex: "object"
       }
     ]));
 

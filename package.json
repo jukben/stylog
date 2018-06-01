@@ -1,23 +1,19 @@
 {
   "name": "stylog",
   "version": "1.0.0",
+  "description": "🎨 Stylish way how to easily format console.log messages",
   "license": "MIT",
   "main": "dist/stylog.cjs.js",
   "module": "dist/stylog.es.js",
   "unpkg": "dist/stylog.umd.min.js",
   "author": "Jakub Benes <jukben@gmail.com>",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "repository": {
     "type": "git",
     "url": "https://github.com/jukben/stylog"
   },
   "homepage": "https://github.com/jukben/stylog",
-  "keywords": [
-    "log",
-    "styled"
-  ],
+  "keywords": ["log", "styled"],
   "scripts": {
     "prepublish": "yarn run build",
     "build": "rollup -c",

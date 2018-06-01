@@ -98,6 +98,7 @@ function StyledEnd(styledObject) {
     value: { type, lex },
     done
   } = tokenGenerator.next();
+
   if (type === SCANNER_TYPE.STYLE_BLOCK_END) {
     createStyled({
       ...styledObject
@@ -114,10 +115,6 @@ function Text() {
     done
   } = tokenGenerator.next();
 
-  if (type === SCANNER_TYPE.END_OF_FILE) {
-    return stack;
-  }
-
   if (type === SCANNER_TYPE.STYLE_BLOCK_START) {
     return StyledID();
   }
@@ -128,7 +125,7 @@ function Text() {
     return Text();
   }
 
-  throw new SyntaxError(`Unexpected token: ${type}`);
+  return stack;
 }
 
 export default parser;

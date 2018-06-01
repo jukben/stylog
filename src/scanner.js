@@ -34,7 +34,11 @@ function* scanner(input) {
 
     if (token === undefined) {
       if (state === STATE.TEXT && lex) {
-        yield { type: "TEXT", lex };
+        yield { type: TYPE.TEXT, lex };
+      }
+
+      if (state === STATE.STYLE_BLOCK_TEXT && lex) {
+        yield { type: TYPE.STYLE_BLOCK_TEXT, lex };
       }
 
       return { type: TYPE.END_OF_FILE };

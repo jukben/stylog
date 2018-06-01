@@ -86,13 +86,49 @@ swagdouble-swag`
     );
   });
 
-  it("styled advanced without style object", () => {
+  it("styled advanced multiple", () => {
+    styled(`text and {image}`, { image: { fontSize: "20px" } });
+    expect(styledConsole).toHaveBeenCalledWith(
+      `%ctext and %c `,
+      "",
+      "font-size:20px"
+    );
+  });
+
+  it("styled advanced multiple with text mutator", () => {
+    styled(`text and {clap swag}`, null, {
+      clap: s => {
+        return [...s]
+          .map((a, i) => `${a}${i !== s.length - 1 ? "👏" : ""}`)
+          .join("");
+      }
+    });
+    expect(styledConsole).toHaveBeenCalledWith(
+      `%ctext and %cs👏w👏a👏g`,
+      "",
+      ""
+    );
+  });
+
+  it("styled advanced multiple with text mutator which returns falsy", () => {
+    styled(`text and {clap swag}`, null, {
+      clap: s => false
+    });
+    expect(styledConsole).toHaveBeenCalledWith(`%ctext and %c `, "", "");
+  });
+
+  it("styled advanced multiple with text mutator which throw an error", () => {
     expect(() =>
-      styled(
-        `text {styled text}
-  swag`,
-        {}
-      )
-    ).toThrow(/Style for "styled" d/);
+      styled(`text and {clap swag}`, null, {
+        clap: () => {
+          throw new Error("swag");
+        }
+      })
+    ).toThrowError(/for "clap" has thrown an error: swag/);
+  });
+
+  it("styled advanced without style object", () => {
+    styled(`text {styled text}`, {});
+    expect(styledConsole).toHaveBeenCalledWith(`%ctext %ctext`, "", "");
   });
 });

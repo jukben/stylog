@@ -55,4 +55,32 @@ describe("parser", () => {
       }
     ]);
   });
+
+  it("styled advanced, styled object has to have lex", () => {
+    expect(() => parser("text {} swag")).toThrowError(/lex/);
+  });
+
+  it("styled advanced unexpected end of the recipe", () => {
+    expect(() => parser("text {")).toThrowError(/Unexpected/);
+  });
+
+  it("unexpected end of the recipe", () => {
+    expect(() => parser("")).toThrowError(/Unexpected/);
+  });
+
+  it("styled advanced unexpected end of the recipe", () => {
+    expect(() => parser("")).toThrowError(/Unexpected/);
+  });
+
+  it("styled advanced unexpected end of the recipe in text of styled object", () => {
+    expect(() => parser("{i ")).toThrowError(/Unexpected/);
+  });
+
+  it("styled advanced unexpected end of the recipe", () => {
+    expect(() => parser("{i ")).toThrowError(/Unexpected/);
+  });
+
+  it("styled advanced unexpected end of the recipe", () => {
+    expect(() => parser("{i d")).toThrowError(/Unexpected/);
+  });
 });

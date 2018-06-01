@@ -9,6 +9,10 @@
 * [Introduction](#introduction)
 * [Install](#install)
 * [Usage](#usage)
+  * [Recipe](#recipe)
+  * [Styles Dictionary](#styles-dictionary)
+  * [Mapper Dictionary](#mapper-dictionary)
+* [Example](#example)
 * [Contributing](#contributing)
 * [License](#license)
 
@@ -35,14 +39,57 @@ stylog(
     [id: string]: {
       [property: string]: string
     }
+  }),
+  (mapperDictionary ?{
+    [id: string]: (value: string) => string
   })
 );
 ```
 
+### Recipe
+
 * **_text_** is everything outside (non-escaped) "**{**"
-* **_styled text_** start with "**{**" then there should immediately come **id** (string) and optionally **text** (multiline string) at the end it should be closed with "**}**"
-* each **_styled text_** should have corresponding style in _stylesDictionary_
-* **_styled text_** can be escaped by \ (in template literal you have to use \\\ )
+* **_styled text_** start with "**{**" followed by **id** (string) and optionally **text** (multiline string) then it should be closed with "**}**"
+* each **_styled text_** may have corresponding style in _stylesDictionary_ otherwise it would be rendered as **_text_**
+* **_styled text_** can be escaped by \ (in template literal you have to use \\\ ) then it would be considered as **_text_**
+
+```
+This is normal text {styled this is styled text}
+```
+
+```
+This is normal text \{styled this is also normal text}
+```
+
+### Styles Dictionary
+
+* is an nullable-object where key should be string matching **id** of **_styled text_** and value is supposed to be object of CSS properties in camelCase notation.
+* it could be null
+
+```js
+{
+  styled: {
+    fontSize: "20px";
+  }
+}
+```
+
+### Mapper Dictionary
+
+* is an nullable-object where key should be string matching **id** of **_styled text_** and value is supposed to be an function which takes that matched string and returns modified string (optionally could return falsy value which will act as empty string)
+
+```js
+{
+  // return c👏l👏a👏p👏e👏d string
+  clap: s => {
+    return [...s]
+      .map((a, i) => `${a}${i !== s.length - 1 ? "👏" : ""}`)
+      .join("");
+  };
+}
+```
+
+## Example
 
 Check it out the `example/index.html` for interactive playground! 🙌
 
@@ -53,6 +100,7 @@ and non-styled text. Lovely, right? {bold *clap* *clap* *clap*}
 
 {image [GANDALF]} {red Be aware! Wild Gandalf appears!}
 
+.
 .
 .
 
@@ -67,7 +115,9 @@ not like this
 .
 .
 .
-{gandalf}`,
+{gandalf}
+
+{clap Awesome}`,
   {
     bold: {
       fontWeight: "bold"
@@ -101,6 +151,17 @@ not like this
       backgroundSize: "200px",
       backgroundRepeat: "no-repeat",
       backgroundPosition: "left"
+    },
+    clap: {
+      background: "black",
+      color: "yellow"
+    }
+  },
+  {
+    clap: s => {
+      return [...s]
+        .map((a, i) => `${a}${i !== s.length - 1 ? "👏" : ""}`)
+        .join("");
     }
   }
 );
@@ -108,7 +169,7 @@ not like this
 
 will produce this:
 
- <img src="https://user-images.githubusercontent.com/8135252/40785138-fde9830e-64e7-11e8-8c57-f205e638a5ba.png" alt="Stylog – Example" title="Stylog - Example" height="500" />
+ <img src="https://user-images.githubusercontent.com/8135252/40863280-71631c20-65ef-11e8-9b02-7a396b7e69f5.png" alt="Stylog – Example" title="Stylog - Example" height="500" />
 
 ## Contributing
 

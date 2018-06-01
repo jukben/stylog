@@ -98,6 +98,7 @@ and non-styled text. Lovely, right? {bold *clap* *clap* *clap*}
 
 .
 .
+.
 
 \\{gandalf}
 
@@ -110,7 +111,9 @@ not like this
 .
 .
 .
-{gandalf}`, {
+{gandalf}
+
+{clap Awesome}`, {
             bold: {
                 fontWeight: 'bold',
             },
@@ -144,6 +147,16 @@ not like this
                 backgroundRepeat: "no-repeat",
                 backgroundPosition: "left",
             },
+            clap: {
+                background: 'black',
+                color: 'yellow',
+            }
+        }, {
+            clap: s => {
+                return [...s]
+                    .map((a, i) => `${a}${i !== s.length - 1 ? "👏" : ""}`)
+                    .join("");
+            }
         });
 </script>
 
