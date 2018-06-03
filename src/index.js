@@ -1,16 +1,34 @@
 import parser, { TYPE as PARSER_TYPE } from "./parser";
 
+/**
+ * Convert CSS-like style object notation to string
+ *
+ * Example:
+ *
+ * convertStyleObjectToString({
+ *   fontSize: "20px"
+ * }) === "font-size:20;"
+ *
+ * Numbers are taken as dimensions in pixels
+ */
 function convertStyleObjectToString(styleObject) {
   return Object.entries(styleObject)
     .map(([rule, value]) => {
       return `${rule
         .split(/(?=[A-Z])/)
         .join("-")
-        .toLowerCase()}:${value}`;
+        .toLowerCase()}:${Number.isInteger(value) ? `${value}px` : value}`;
     })
     .join(";");
 }
 
+/**
+ * Call of this function will affect actual console.log call as a side-effect
+ *
+ * Example:
+ *
+ * styled("text {styled styled text}", {styled: {fontSize: 20}});
+ */
 function styled(recipe, stylesDictionary, mapperDictionary) {
   const parsedRecipe = parser(recipe);
   const [texts, styles] = parsedRecipe.reduce(
@@ -55,5 +73,25 @@ function styled(recipe, stylesDictionary, mapperDictionary) {
 
   console.log(texts, ...styles);
 }
+
+/**
+ * Curried version of "styled" function with reversed order of arguments (data-last)
+ *
+ * Example:
+ *
+ * const superConsole = styled.fp(null)({ big: { fontSize: "20px" } });
+ * superConsole("{big text}");
+ */
+styled.fp = (...arg) => {
+  return (...x) => {
+    const args = [...arg, ...x];
+
+    if (args.length === styled.length) {
+      return styled.apply(this, args.reverse());
+    }
+
+    return styled.fp(args);
+  };
+};
 
 export default styled;

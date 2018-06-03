@@ -132,3 +132,22 @@ swagdouble-swag`
     expect(styledConsole).toHaveBeenCalledWith(`%ctext %ctext`, "", "");
   });
 });
+
+describe("fp", () => {
+  it("styled, curry 1", () => {
+    const bigText = styled.fp(null, { big: { fontSize: 20 } });
+
+    bigText("{big text}");
+
+    expect(styledConsole).toHaveBeenCalledWith(`%ctext`, "font-size:20px");
+  });
+
+  it("styled, curry 2", () => {
+    const bigTransform = styled.fp(null);
+    const bigStyle = bigTransform({ big: { fontSize: "20px" } });
+
+    bigStyle("{big text}");
+
+    expect(styledConsole).toHaveBeenCalledWith(`%ctext`, "font-size:20px");
+  });
+});

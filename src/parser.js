@@ -5,35 +5,38 @@ export const TYPE = {
   STYLED: "STYLED"
 };
 
-let stack = null;
+let ast = [];
 let tokenGenerator = null;
 
+//  helpers functions
+
 function createText(value) {
-  stack.push({
+  ast.push({
     type: TYPE.TEXT,
     value
   });
 }
 
 function createStyled({ id, value = null }) {
-  stack.push({
+  ast.push({
     type: TYPE.STYLED,
     value,
     id
   });
 }
 
-function parser(input) {
-  stack = [];
-  tokenGenerator = scanner(input);
-
-  return Init();
-}
-
-function Init() {
+function getNextToken() {
   const {
     value: { type, lex }
   } = tokenGenerator.next();
+
+  return { type, lex };
+}
+
+// Rules
+
+function Init() {
+  const { type, lex } = getNextToken();
 
   if (type === SCANNER_TYPE.TEXT) {
     createText(lex);
@@ -49,10 +52,7 @@ function Init() {
 }
 
 function StyledID() {
-  const {
-    value: { type, lex: id },
-    done
-  } = tokenGenerator.next();
+  const { type, lex: id } = getNextToken();
 
   if (type === SCANNER_TYPE.STYLE_BLOCK_ID) {
     if (!id) {
@@ -70,10 +70,7 @@ function StyledID() {
 }
 
 function StyledText(styledObject) {
-  const {
-    value: { type, lex: value },
-    done
-  } = tokenGenerator.next();
+  const { type, lex: value } = getNextToken();
 
   if (type === SCANNER_TYPE.STYLE_BLOCK_TEXT) {
     return StyledEnd({
@@ -94,10 +91,7 @@ function StyledText(styledObject) {
 }
 
 function StyledEnd(styledObject) {
-  const {
-    value: { type, lex },
-    done
-  } = tokenGenerator.next();
+  const { type, lex } = getNextToken();
 
   if (type === SCANNER_TYPE.STYLE_BLOCK_END) {
     createStyled({
@@ -110,10 +104,7 @@ function StyledEnd(styledObject) {
 }
 
 function Text() {
-  const {
-    value: { type, lex },
-    done
-  } = tokenGenerator.next();
+  const { type, lex } = getNextToken();
 
   if (type === SCANNER_TYPE.STYLE_BLOCK_START) {
     return StyledID();
@@ -125,7 +116,14 @@ function Text() {
     return Text();
   }
 
-  return stack;
+  return ast;
+}
+
+function parser(input) {
+  ast = [];
+  tokenGenerator = scanner(input);
+
+  return Init();
 }
 
 export default parser;

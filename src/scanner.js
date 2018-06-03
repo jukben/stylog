@@ -24,10 +24,24 @@ export const TYPE = {
   TEXT: "TEXT"
 };
 
+let lex = "";
+
+// helper functions
+
+function clearLex() {
+  lex = "";
+}
+
+function addTokenToLex(token) {
+  lex += token;
+}
+
+// non-deterministic finite automaton
+
 function* scanner(input) {
   let i = 0;
   let state = STATE.INIT;
-  let lex = "";
+  clearLex();
 
   while (true) {
     const token = input[i++];
@@ -55,7 +69,7 @@ function* scanner(input) {
           continue;
         } else {
           state = STATE.TEXT;
-          lex += token;
+          addTokenToLex(token);
           continue;
         }
       }
@@ -66,7 +80,7 @@ function* scanner(input) {
           yield { type: TYPE.TEXT, lex };
           yield { type: TYPE.STYLE_BLOCK_START };
 
-          lex = "";
+          clearLex();
           continue;
         }
 
@@ -75,7 +89,7 @@ function* scanner(input) {
           continue;
         }
 
-        lex += token;
+        addTokenToLex(token);
         continue;
       }
       case STATE.IGNORE: {
@@ -89,7 +103,7 @@ function* scanner(input) {
 
           yield { type: TYPE.STYLE_BLOCK_ID, lex };
 
-          lex = "";
+          clearLex();
           continue;
         }
 
@@ -99,7 +113,7 @@ function* scanner(input) {
           yield { type: TYPE.STYLE_BLOCK_ID, lex };
           yield { type: TYPE.STYLE_BLOCK_END };
 
-          lex = "";
+          clearLex();
           continue;
         }
 
@@ -108,7 +122,7 @@ function* scanner(input) {
 
           yield { type: TYPE.STYLE_BLOCK_ID, lex };
 
-          lex = "";
+          clearLex();
           continue;
         }
 
@@ -122,11 +136,11 @@ function* scanner(input) {
           yield { type: TYPE.STYLE_BLOCK_TEXT, lex };
           yield { type: TYPE.STYLE_BLOCK_END };
 
-          lex = "";
+          clearLex();
           continue;
         }
 
-        lex += token;
+        addTokenToLex(token);
         continue;
       }
     }
