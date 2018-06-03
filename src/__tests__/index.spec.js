@@ -134,6 +134,14 @@ swagdouble-swag`
 });
 
 describe("fp", () => {
+  it("styled, curry 0", () => {
+    const bigText = styled.fp(null, { big: { fontSize: 20 } }, "{big text}");
+
+    bigText();
+
+    expect(styledConsole).toHaveBeenCalledWith(`%ctext`, "font-size:20px");
+  });
+
   it("styled, curry 1", () => {
     const bigText = styled.fp(null, { big: { fontSize: 20 } });
 

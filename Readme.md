@@ -48,6 +48,12 @@ stylog(
 );
 ```
 
+If you are fan of FP you can take full advantage of the data-last curried version!✌️
+
+```js
+stylog.fp(mapperDictionary)(stylesDictionary)(recipe);
+```
+
 ### Recipe
 
 * **_text_** is everything outside (non-escaped) "**{**"
