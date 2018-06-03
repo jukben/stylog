@@ -1,5 +1,5 @@
 <div align="center">
- <img src="https://user-images.githubusercontent.com/8135252/40784109-ea8d13c8-64e4-11e8-87aa-5ac3b4f27c02.png" alt="Gbck logo" title="Gbck" height="250" />
+ <img src="https://user-images.githubusercontent.com/8135252/40784109-ea8d13c8-64e4-11e8-87aa-5ac3b4f27c02.png" alt="Stylog logo" title="Stylog" height="250" />
 
 <div><strong>STY</strong>led console.<strong>LOG</strong></div>
 </div>
@@ -77,7 +77,7 @@ This is normal text \{styled this is also normal text}
 ```js
 {
   styled: {
-    fontSize: "20px";
+    fontSize: "20px"; // or "fontSize: 20" :)
   }
 }
 ```
