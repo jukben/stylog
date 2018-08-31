@@ -6,15 +6,16 @@
 
 ## Table of Contents
 
-* [Introduction](#introduction)
-* [Install](#install)
-* [Usage](#usage)
-  * [Recipe](#recipe)
-  * [Styles Dictionary](#styles-dictionary)
-  * [Mapper Dictionary](#mapper-dictionary)
-* [Example](#example)
-* [Contributing](#contributing)
-* [License](#license)
+- [Introduction](#introduction)
+- [Install](#install)
+- [Usage](#usage)
+  - [Recipe](#recipe)
+  - [Styles Dictionary](#styles-dictionary)
+  - [Mapper Dictionary](#mapper-dictionary)
+- [Example](#example)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
 
 ## Introduction
 
@@ -56,10 +57,10 @@ stylog.fp(mapperDictionary)(stylesDictionary)(recipe);
 
 ### Recipe
 
-* **_text_** is everything outside (non-escaped) "**{**"
-* **_styled text_** start with "**{**" followed by **id** (string) and optionally **text** (multiline string) then it should be closed with "**}**"
-* each **_styled text_** may have corresponding style in _stylesDictionary_ otherwise it would be rendered as **_text_**
-* **_styled text_** can be escaped by \ (in template literal you have to use \\\ ) then it would be considered as **_text_**
+- **_text_** is everything outside (non-escaped) "**{**"
+- **_styled text_** start with "**{**" followed by **id** (string) and optionally **text** (multiline string) then it should be closed with "**}**"
+- each **_styled text_** may have corresponding style in _stylesDictionary_ otherwise it would be rendered as **_text_**
+- **_styled text_** can be escaped by \ (in template literal you have to use \\\ ) then it would be considered as **_text_**
 
 ```
 This is normal text {styled this is styled text}
@@ -71,8 +72,8 @@ This is normal text \{styled this is also normal text}
 
 ### Styles Dictionary
 
-* is an nullable-object where key should be string matching **id** of **_styled text_** and value is supposed to be object of CSS properties in camelCase notation.
-* it could be null
+- is an nullable-object where key should be string matching **id** of **_styled text_** and value is supposed to be object of CSS properties in camelCase notation.
+- it could be null
 
 ```js
 {
@@ -84,7 +85,7 @@ This is normal text \{styled this is also normal text}
 
 ### Mapper Dictionary
 
-* is an nullable-object where key should be string matching **id** of **_styled text_** and value is supposed to be an function which takes that matched string and returns modified string (optionally could return falsy value which will act as empty string)
+- is an nullable-object where key should be string matching **id** of **_styled text_** and value is supposed to be an function which takes that matched string and returns modified string (optionally could return falsy value which will act as empty string)
 
 ```js
 {
@@ -182,6 +183,10 @@ will produce this:
 ## Contributing
 
 Do you miss something? Open an issue, I'd like to hear more about your use case. You can also fork this repository and run `yarn && yarn dev`, do stuff in the playground (`example/index.html`), then run `yarn test` and finally send a PR! ❤️
+
+## Credits
+
+I got the inspiration for this project from https://github.com/adamschwartz/log, especially from this [issue](https://github.com/adamschwartz/log/issues/43). Thanks @whitefire0 and @adamschwartz.
 
 ## License
 
